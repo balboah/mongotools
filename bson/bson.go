@@ -1,4 +1,4 @@
-package restore
+package bson
 
 import (
 	"encoding/binary"
@@ -38,4 +38,13 @@ func UnmarshalFromStream(reader io.Reader, out interface{}) (err error) {
 		return nil
 	}
 	return bson.Unmarshal(b, out)
+}
+
+func MarshalToStream(writer io.Writer, val interface{}) (err error) {
+	out, err := bson.Marshal(val)
+	if err != nil {
+		return err
+	}
+	_, err = writer.Write(out)
+	return err
 }
